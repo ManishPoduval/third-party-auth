@@ -25,6 +25,11 @@ class App extends Component {
               fetchingInitialData: false,
             })
         })
+        .catch(() => {
+          this.setState({
+            fetchingInitialData: false,
+          })
+        })
     }  
   }
 
@@ -59,7 +64,7 @@ class App extends Component {
 
   render() {
     const { loggedInUser, fetchingInitialData } = this.state
-    if (!fetchingInitialData) {
+    if (fetchingInitialData) {
       return <p>Loading data. . . </p>
     }
     return (
