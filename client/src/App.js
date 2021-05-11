@@ -11,7 +11,7 @@ class App extends Component {
   state = {
     loggedInUser: null,
     error: null,
-    fetchingInitialData: true,
+    showLoading: true,
   }
 
   // Check if the user is loggedInAlready
@@ -22,24 +22,27 @@ class App extends Component {
         .then((response) => {
             this.setState({
               loggedInUser: response.data,
-              fetchingInitialData: false,
+              showLoading: false,
             })
         })
         .catch(() => {
           this.setState({
-            fetchingInitialData: false,
+            showLoading: false,
           })
         })
     }  
   }
 
   handleLinkedInSuccess = (data) => {
-    console.log('Here')
+    this.setState({
+      showLoading: true
+    })
     axios.post(`${config.API_URL}/api/linkedin/info`, {code: data.code}, {withCredentials: true})
       .then((response) => {
         this.setState({
           loggedInUser: response.data.data,
           error: null,
+          showLoading: false
         }, () => {
           this.props.history.push('/profile')
         });   
@@ -50,6 +53,24 @@ class App extends Component {
     this.setState({
       error,
     }); 
+  }
+
+  handleFacebookReponse = (data) => {
+    this.setState({
+      showLoading: true
+    })
+    const {name, email, picture: {data: {url}}, userID} = data
+    let newUser = {name, email, image: url, facebookId: userID}
+    axios.post(`${config.API_URL}/api/facebook/info`, newUser , {withCredentials: true})
+      .then((response) => {
+        this.setState({
+          loggedInUser: response.data.data,
+          error: null,
+          showLoading: false
+        }, () => {
+          this.props.history.push('/profile')
+        });   
+      })
   }
 
   handleLogout = () => {
@@ -63,8 +84,8 @@ class App extends Component {
   }
 
   render() {
-    const { loggedInUser, fetchingInitialData } = this.state
-    if (fetchingInitialData) {
+    const { loggedInUser, showLoading } = this.state
+    if (showLoading) {
       return <p>Loading data. . . </p>
     }
     return (
@@ -74,6 +95,7 @@ class App extends Component {
           loggedInUser={loggedInUser}
           onLinkedInSuccess={this.handleLinkedInSuccess}
           onLinkedInFailure={this.handleLinkedInFailure}
+          onFacebookResponse={this.handleFacebookReponse}
         />
         <Switch >
           <Route exact path="/linkedin" component={LinkedInPopUp} />

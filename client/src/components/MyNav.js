@@ -1,5 +1,6 @@
 import React from  'react'
 import {Link} from  'react-router-dom'
+import FacebookButton from './FacebookButton'
 import LinkedInButton from './LinkedInButton'
 
 function MyNav(props) {
@@ -9,6 +10,7 @@ function MyNav(props) {
       onLinkedInFailure, 
       loggedInUser,
       onLogout,
+      onFacebookResponse
     } = props  
 
   return (
@@ -23,6 +25,7 @@ function MyNav(props) {
                 ) : (
                 <>
                     <LinkedInButton onSuccess={onLinkedInSuccess} onFailure={onLinkedInFailure}/>
+                    <FacebookButton onFacebookResponse={onFacebookResponse}/>
                     <Link  style={{marginLeft: '10px'}}  to="/signin">SignIn</Link>
                     <Link  style={{marginLeft: '10px'}}  to="/signup">SignUp</Link>
                 </>
