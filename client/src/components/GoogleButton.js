@@ -3,12 +3,7 @@ import GoogleLogin from 'react-google-login';
 
 function GoogleButton(props) {
     const {onSuccess, onFailure} = props
-
-    // const onSuccess = (data) => {
-    //     console.log('here')
-    // }
-
-
+    
     return (
         <div>
             <GoogleLogin
