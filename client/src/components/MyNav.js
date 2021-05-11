@@ -1,6 +1,7 @@
 import React from  'react'
 import {Link} from  'react-router-dom'
 import FacebookButton from './FacebookButton'
+import GoogleButton from './GoogleButton'
 import LinkedInButton from './LinkedInButton'
 
 function MyNav(props) {
@@ -10,7 +11,9 @@ function MyNav(props) {
       onLinkedInFailure, 
       loggedInUser,
       onLogout,
-      onFacebookResponse
+      onFacebookResponse,
+      onGoogleSuccess,
+      onGoogleFailure
     } = props  
 
   return (
@@ -26,6 +29,7 @@ function MyNav(props) {
                 <>
                     <LinkedInButton onSuccess={onLinkedInSuccess} onFailure={onLinkedInFailure}/>
                     <FacebookButton onFacebookResponse={onFacebookResponse}/>
+                    <GoogleButton  onSuccess={onGoogleSuccess} onFailure={onGoogleFailure} />
                     <Link  style={{marginLeft: '10px'}}  to="/signin">SignIn</Link>
                     <Link  style={{marginLeft: '10px'}}  to="/signup">SignUp</Link>
                 </>

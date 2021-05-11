@@ -50,6 +50,7 @@ class App extends Component {
   }
 
   handleLinkedInFailure = (error) => {
+    //TODO: Handle these errors yourself the way you want. Currently the state is not in use
     this.setState({
       error,
     }); 
@@ -72,6 +73,39 @@ class App extends Component {
         });   
       })
   }
+
+  handleGoogleSuccess = (data) => {
+    this.setState({
+      showLoading: true
+    })
+    const {givenName, familyName, email, imageUrl, googleId} = data.profileObj
+    let newUser = {
+      firstName: givenName,
+      lastName: familyName,
+      email, 
+      image: imageUrl, 
+      googleId
+    }
+    axios.post(`${config.API_URL}/api/google/info`, newUser , {withCredentials: true})
+      .then((response) => {
+        this.setState({
+          loggedInUser: response.data.data,
+          error: null,
+          showLoading: false
+        }, () => {
+          this.props.history.push('/profile')
+        });   
+      })
+  } 
+
+  handleGoogleFailure = (error) => {
+    //TODO: Handle these errors yourself the way you want. Currently the state is not in use
+    console.log(error) 
+    this.setState({
+      error,
+    }); 
+  }
+
 
   handleLogout = () => {
     axios.get(`${config.API_URL}/api/logout`, {withCredentials: true})
@@ -96,6 +130,8 @@ class App extends Component {
           onLinkedInSuccess={this.handleLinkedInSuccess}
           onLinkedInFailure={this.handleLinkedInFailure}
           onFacebookResponse={this.handleFacebookReponse}
+          onGoogleSuccess={this.handleGoogleSuccess}
+          onGoogleFailure={this.handleGoogleFailure}
         />
         <Switch >
           <Route exact path="/linkedin" component={LinkedInPopUp} />
