@@ -40,6 +40,9 @@ app.use('/api', allRoutes);
 const linkedinRoutes = require('./routes/linkedin.routes');
 app.use('/api', linkedinRoutes);
 
+const facebookRoutes = require('./routes/facebook.routes')
+app.use('/api', facebookRoutes);
+
 // ❗ To handle errors. Routes that don't exist or errors that you handle in specific routes
 require('./error-handling')(app);
 
