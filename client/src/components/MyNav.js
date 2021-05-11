@@ -30,8 +30,6 @@ function MyNav(props) {
                     <LinkedInButton onSuccess={onLinkedInSuccess} onFailure={onLinkedInFailure}/>
                     <FacebookButton onFacebookResponse={onFacebookResponse}/>
                     <GoogleButton  onSuccess={onGoogleSuccess} onFailure={onGoogleFailure} />
-                    <Link  style={{marginLeft: '10px'}}  to="/signin">SignIn</Link>
-                    <Link  style={{marginLeft: '10px'}}  to="/signup">SignUp</Link>
                 </>
                 )
             }
